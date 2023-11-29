@@ -1,0 +1,39 @@
+{% extends "base_generic.html" %}
+{% load mytags %}
+
+{% block content %}
+  <h1>Title: {{ payrollhours.user.first_name }} {{ payrollhours.user.last_name }}</h1>
+
+    <p><strong>Detail:</strong> <a href="">{{ payrollhours.user.first_name }} {{ payrollhours.user.last_name }}</a>
+    <div style="margin-left:20px;margin-top:20px">
+      <hr />
+      <h4>Hours:</h4>
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col">Date</th>
+              <th scope="col">Start Time</th>
+              <th scope="col">End Time</th>
+              <th scope="col">Duration</th>
+              <th scope="col">Vac Hours</th>
+              <th scope="col">Adj Hours</th>
+              <th scope="col">Adj Ok'd?</th>
+              <th scope="col">Submitted?</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for hourentry in payrollhours.user.payrollhours_set.all %}
+            <tr>
+              <td><a href="{{ hourentry.get_absolute_url }}">{{hourentry.date_worked}}</a></td>
+              <td>{{hourentry.starting_time}}</td>
+              <td>{{hourentry.ending_time}}</td>
+              <td>{{hourentry.ending_time|timedelta_filter:hourentry.starting_time}}</td>
+              <td>{{hourentry.vacation_hours}}</td>
+              <td>{{hourentry.adjustment_mins}}</td>
+              <td>{{hourentry.adjustment_approved}}</td>
+              <td>{{hourentry.employee_submitted}}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+  <h2>User: {{ user.first_name }} {{ user.last_name }}</h2>
+    <h4>Pay Period entry:</h4>
+    <hr>
+    <form action="" method="post">
+    {% csrf_token %}
+    <table>
+      {{ form.as_p }}
+    </table>
+    <input type="submit" value="Submit" />
+    <button onclick="window.history.back()">Cancel</button></a>
+</form>
+{% endblock %}

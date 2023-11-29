@@ -1,0 +1,94 @@
+.sidebar-nav {
+    margin-top: 20px;
+    padding: 0;
+    list-style: none;
+}
+
+/* Following doesn't seem to work
+https://stackoverflow.com/questions/19331774/how-do-i-remove-the-bottom-border-on-a-bootstrap-3-0-table-thead
+https://www.w3schools.com/cssref/pr_border-bottom.php
+https://shuffle.dev/bootstrap/classes/tables/table-bordered
+https://blog.hubspot.com/website/bootstrap-table-css#striped-rows %%% Good doc to read
+*/
+/*table.table-hover .table-hover td { /*thead>tr>th,.phtable tbody>tr>th,.phtable tfoot>tr>th,.phtable thead>tr>td,.phtable tbody>tr>td,.phtable tfoot>tr>td {*/
+/*  border-bottom: 2px solid black;
+  border-top: 2px solid black;
+}
+
+table.table-hover > thead > tr > th {
+  border-bottom:2px solid black;
+  border-top: 2px solid black
+}
+
+table.table-hover > tbody > tr > th {
+  border-bottom:2px solid black;
+  border-top: 2px solid black
+}*/
+
+/* Limit the size of the table; think this is responsive only */
+/*
+.my-custom-scrollbar {
+position: relative;
+height: 300px;
+overflow: auto;
+}
+.table-wrapper-scroll-y {
+display: block;
+}
+*/
+
+#ph-0-wrapper {
+  max-width: 100%;
+  margin: 0 auto;
+}
+#ph-0 th, td {
+  white-space: nowrap;
+}
+#pl-0 td {
+  border-bottom: 2px solid black;
+  border-top: 2px solid black;
+}
+
+  /* Scroll the table within table */
+  /* see: https://mdbootstrap.com/docs/b4/jquery/tables/scroll/ */
+table.dataTable thead .sorting:after,
+table.dataTable thead .sorting:before,
+table.dataTable thead .sorting_asc:after,
+table.dataTable thead .sorting_asc:before,
+table.dataTable thead .sorting_asc_disabled:after,
+table.dataTable thead .sorting_asc_disabled:before,
+table.dataTable thead .sorting_desc:after,
+table.dataTable thead .sorting_desc:before,
+table.dataTable thead .sorting_desc_disabled:after,
+table.dataTable thead .sorting_desc_disabled:before {
+bottom: .5em;
+}
+ 
+  /* The below works a bit, but not entirely.  Perhaps try with line 13 above */
+table, .table-hover td {
+  border-bottom: 2px solid black;
+  border-top: 2px solid black;
+}
+.table-hover {
+  thead {
+    th,
+    td{
+      border-bottom:2px solid black;
+    }
+  }
+  tbody {
+    th,
+    td{
+      border-bottom:2px solid black;
+    }
+  }
+}
+
+/* Make the active user header and the vacation hours on the same line */
+/* See: https://stackoverflow.com/questions/13194692/align-h1-header-and-normal-text-in-same-line */
+.activeuser-header h2 { 
+  display: inline;
+}
+.activeuser-header span { 
+  float: right;
+}

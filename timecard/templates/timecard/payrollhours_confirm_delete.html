@@ -1,0 +1,45 @@
+{% extends "base_generic.html" %}
+{% load mytags %}
+
+{% block content %}
+
+<h1>Delete Payroll Hour entry</h1>
+<hr>
+<h4>Hours:</h4>
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Date</th>
+        <th scope="col">Start Time</th>
+        <th scope="col">End Time</th>
+        <th scope="col">Duration</th>
+        <th scope="col">Vac Hours</th>
+        <th scope="col">Adj Hours</th>
+        <th scope="col">Adj Ok'd?</th>
+        <th scope="col">Submitted?</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>{{payrollhours.date_worked}}</td>
+        <td>{{payrollhours.starting_time}}</td>
+        <td>{{payrollhours.ending_time}}</td>
+        <td>{{payrollhours.ending_time|timedelta_filter:payrollhours.starting_time}}</td>
+        <td>{{payrollhours.vacation_hours}}</td>
+        <td>{{payrollhours.adjustment_mins}}</td>
+        <td>{{payrollhours.adjustment_approved}}</td>
+        <td>{{payrollhours.employee_submitted}}</td>
+      </tr>
+    </tbody>
+  </table>
+
+
+<p>Are you sure you want to delete the payroll hours entry above (use back button to CANCEL)?</p>
+
+<form action="" method="POST">
+  {% csrf_token %}
+  <input type="submit" value="Yes, delete." />
+  <button formaction="{% url 'activeuser-home' pk=payrollhours.user.pk year=payrollhours.date_worked.year month=payrollhours.date_worked.month %}">Cancel</button>
+</form>
+
+{% endblock %}

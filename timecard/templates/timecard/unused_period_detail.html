@@ -1,0 +1,14 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+  <h1>Title: {{ period.period }}</h1>
+
+    <p><strong>No link:</strong> <a href="">{{ period.period }}</a></p>
+    <p><strong>Calendar Year:</strong> {{ period.calendar_year }}</p>
+    <p><strong>Period No:</strong> {{ period.period_no}}</p>
+    <p><strong>Fiscal Year:</strong> {{ period.fiscal_year }}</p>
+    <p><strong>Starting Date:</strong> {{ period.starting_date }}</p>
+    <p><strong>Pay Date:</strong> {{ period.pay_date }}</p>
+    <p><strong>Employee Reporting Date:</strong> {{ period.reporting_date }}</p>
+    <p><strong>Manager Submission Date:</strong> {{ period.submission_date }} / {{ period.submission_time }}</p>
+{% endblock %}

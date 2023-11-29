@@ -1,0 +1,20 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+    <h1>Hours for: {{ user.get_username }}</h1>
+
+    {% if payrollhours_list %}
+    <ul>
+      {% for payrollhours in payrollhours_list %}
+      <li>
+        <a href="{% url 'period-detail' payrollhours.period.pk %}">{{ payrollhours.period }}</a> 
+        ({{ payrollhours.date_worked }})
+        %%%NEED TO ADD MORE.  See activeuser_detail.html%
+      </li>
+      {% endfor %}
+    </ul>
+
+    {% else %}
+      <p>There are no hours for this pay period.</p>
+    {% endif %}
+{% endblock %}

@@ -1,0 +1,18 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+  <h1>Active User List</h1>
+    {% if activeuser_list %}
+      <ul>
+        {% for activeuser in activeuser_list %}
+        <li>
+          <a href="{{ activeuser.get_absolute_url }}">{{ activeuser.first_name }} {{ activeuser.last_name }}</a>
+          -- Start date: {{activeuser.start_date|date:'n/j/Y' }}
+          -- Phone: {{activeuser.phone_number}}
+        </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p>There are no Active Users set up yet.</p>
+    {% endif %}
+{% endblock %}

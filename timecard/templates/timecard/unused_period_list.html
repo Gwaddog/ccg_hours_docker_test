@@ -1,0 +1,23 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+  <h1>Period List</h1>
+  {% if period_list %}
+    <ul>
+      {% for period in period_list %}
+      <li>
+        <a href="{{ period.get_absolute_url }}">{{ period.period_no }}</a>
+        ({{period.calendar_year}})
+        ({{period.fiscal_year}})
+        ({{period.starting_date}})
+        ({{period.pay_date}})
+        ({{period.reporting_date}})
+        ({{period.submission_date}})
+        ({{period.submission_time}})
+      </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>There are no periods set up yet.</p>
+  {% endif %}
+{% endblock %}

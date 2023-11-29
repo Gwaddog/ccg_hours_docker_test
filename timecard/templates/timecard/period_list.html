@@ -1,0 +1,50 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+  <h2>{% if prev_year_ok %}<a href="{% url 'prev-period-yr' year=prev_year %}">-</a>{% endif %}{{ display_year }}{% if next_year_ok %}<a href="{% url 'next-period-yr' year=next_year %}">+</a>{% endif %} Pay period List</h2>
+  <div style="margin-left:20px;margin-top:20px">
+    {% if user.is_superuser %}<a href="{% url 'period-create' %}"> New Period</a>{% endif %}
+    {% if period_list %}
+      <ul>
+        <div id="pl-0-wrapper">
+          <table id="pl-0" class="table table-condensed table-hover table-responsive table-sm" cellspacing="0" width="100%">
+            <thead>
+              <tr>
+                {% if user.is_superuser %}<th class="th-sm" scope="col">Period</th>{% endif %}
+                <th class="th-sm" scope="col">Period #</th>
+                <th class="th-sm" scope="col">Year</th>
+                <th class="th-sm" scope="col">Fiscal Yr</th>
+                <th class="th-sm" scope="col">Starting Date</th>
+                <th class="th-sm" scope="col">Ending Date</th>
+                <th class="th-sm" scope="col">Mgr Sub</th>
+                <th class="th-sm" scope="col">Mgr Sub Time</th>
+                <th class="th-sm" scope="col">Paycheck</th>
+                <th class="th-sm" scope="col">Pay Time</th>
+                {% if user.is_superuser %}<th class="th-sm" scope="col">Delete?</th>{% endif %}
+              </tr>
+            </thead>
+            <tbody>
+              {% for period in period_list %}
+              <tr>
+                {% if user.is_superuser %}<td><a href="{% url 'period-update' period.pk %}">{{period.period}}</a></td>{% endif %}
+                <td>{{period.period_no}}</td>
+                <td>{{period.calendar_year}}</td>
+                <td>{{period.fiscal_year}}</td>
+                <td>{{period.starting_date}}</td>
+                <td>{{period.reporting_date}}</td>
+                <td>{{period.submission_date}}</td>
+                <td>{{period.submission_time}}</td>
+                <td>{{period.pay_date}}</td>
+                <td>{{period.pay_time}}</td>
+                {% if user.is_superuser %}<td><a href="{% url 'period-delete' pk=period.pk %}">Delete</a></td>{% endif %}
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </ul>
+    {% else %}
+      <p>There are no Periods set up yet.</p>
+    {% endif %}
+  </div>
+{% endblock %}

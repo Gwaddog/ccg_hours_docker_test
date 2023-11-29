@@ -1,0 +1,18 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+  <h1>CCG Hours Home</h1>
+  <p>
+    Welcome to CCG Hour Submission, a website developed by
+    <em>Greg Widener</em>!
+  </p>
+  <h2>Dynamic content</h2>
+  <p>The system has the following record counts:</p>
+  <ul>
+    <li><strong>Users:</strong> {{ num_users }}</li>
+    <li><strong>Periods:</strong> {{ num_periods }}</li>
+    <li><strong>Payroll Hour Entries:</strong> {{ num_hour_entries }}</li>
+  </ul>
+  <p>
+    You have visited this page {{ num_visits }} time{{ num_visits|pluralize }}
+{% endblock %}

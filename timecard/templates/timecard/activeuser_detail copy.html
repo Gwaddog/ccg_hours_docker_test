@@ -1,0 +1,81 @@
+{% extends "base_generic.html" %}
+{% load mytags %}
+{% block content %}
+  <h2 style="display: inline-block;">{{ activeuser.first_name }} {{ activeuser.last_name }}</h2>
+  <div style="margin-left:20px;margin-top:20px">
+    <hr>
+      {% if curr_period %}
+        <h4>Timecard: {% if prev_period_ok %}<a href="{% url 'prev-period-mo' pk=activeuser.pk year=curr_year month=curr_month %}">-</a>{% endif %}{{curr_period.starting_date|date:"m/d/Y"}} - {{curr_period.reporting_date|date:"m/d/Y"}}{% if next_period_ok %}<a href="{% url 'next-period-mo' pk=activeuser.pk year=curr_year month=curr_month %}">+</a>{% endif %} | Check: {{curr_period.pay_date|date:"m/d/Y"}} | 
+            Mgr submit: {{curr_period.submission_date|date:"m/d/Y"}}</h4>
+      {% else %}
+        <h4 style="color:red">Timecard: Current period doesn't exist, Have manager update Period list.</h4>
+      {% endif %}
+      <p>
+        <style="display: inline-block;"><strong>Options:</strong> {% if create_update_ok %}<a href="{% url 'payrollhours-create' pk=curr_period.pk %}"> New Hours</a>{%endif%}</style>
+        {% if vac_user_has %}<span style="margin-left:30px;">Vacation hours (taken of total): {{vac_hours_taken}}:{{vac_minutes_taken|stringformat:"02d"}} of {{vac_hours_total}}:00</span>{% endif %}
+      </p>
+      {% if not all_hours_submitted %}
+        <form method="post" action="{% url 'submit-hours' pk=activeuser.pk pk_per=curr_period.pk %}">
+          {%csrf_token %}
+          <button type="submit" class="btn btn-warning mr-1 float-left">Submit All Hours</button>
+        </form></p>
+      {% endif %}
+      <div id="ph-0-wrapper">
+        <style>
+          table, .table-hover td {
+            border-bottom: 2px solid black;
+            border-top: 2px solid black;
+          }
+        </style>
+        <table id="ph-0" class="table table-condensed table-hover table-responsive table-sm" cellspacing="0" width="100%">
+          <thead>
+            <tr>
+              <th class="th-sm" scope="col">Date</th>
+              <th class="th-sm" scope="col">Start Time</th>
+              <th class="th-sm" scope="col">End Time</th>
+              <th class="th-sm" scope="col">Duration</th>
+              <th class="th-sm" scope="col">Vac Hours</th>
+              <th class="th-sm" scope="col">Adj Mins</th>
+              <th class="th-sm" scope="col">Adj Ok'd?</th>
+              <th class="th-sm" scope="col">Submitted?</th>
+              <th class="th-sm" scope="col">Delete?</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for hourentry in payrollhours_per_period %}
+            <tr>
+              {% if create_update_ok %}
+                <td><a href="{% url 'payrollhours-update' pk=hourentry.pk pk_per=curr_period.pk %}">{{hourentry.date_worked}}</a></td>
+              {% else %}
+                <td>{{hourentry.date_worked}}</td>
+              {% endif %}
+              <td>{{hourentry.starting_time}}</td>
+              <td>{{hourentry.ending_time}}</td>
+              <td>{{hourentry.minutes|duration_filter}}</td>
+              <td>{{hourentry.vacation_hours}}</td>
+              <td>{{hourentry.adjustment_mins|div:60|stringformat:"d"}}:{{hourentry.adjustment_mins|mod:60|stringformat:"02d"}}</td>
+              <td>{{hourentry.adjustment_approved}}</td>
+              {% if hourentry.employee_submitted == True %}
+                <td class='bg-default'>{{hourentry.employee_submitted}}</td>
+              {% else %}
+                <td class='bg-warning'>{{hourentry.employee_submitted}}</td>
+              {% endif %}
+              <td>{% if create_update_ok %}<a href="{% url 'payrollhours-delete' pk=hourentry.pk %}">{% endif %}Delete{% if create_update_ok %}</a>{% endif %}</td>
+            </tr>
+            {% endfor %}
+            <td>Total Hours</td>
+            <td></td>
+            <td></td>
+            <td>{{ total_hours|stringformat:"02d" }}:{{ total_minutes|stringformat:"02d" }}</td>
+            <td>+</td>
+            <td>{{total_adjustment_mins|div:60|stringformat:"d"}}:{{total_adjustment_mins|mod:60|stringformat:"02d"}}</td>
+            <td></td>
+            <td></td>
+            <td></td>
+          </tbody>
+        </table>
+      </div>
+    <h4>For changes after: {{curr_period.reporting_date|date:"m/d/Y"}} contact Manager</h4>
+    </hr>
+  </div>
+{% endblock %}
